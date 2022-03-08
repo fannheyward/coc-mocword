@@ -34,9 +34,7 @@ class MocwordProvider implements CompletionItemProvider {
 
   async provideCompletionItems(): Promise<CompletionItem[]> {
     if (!this.proc) {
-      let args: string[] = [];
-      args = args.concat(['-l', this.limit]);
-      this.proc = spawn(this.bin, args);
+      this.proc = spawn(this.bin, ['-l', this.limit]);
     }
 
     if (!this.proc) return [];
