@@ -1,0 +1,62 @@
+{
+  "name": "coc-mocword",
+  "version": "0.0.0-development",
+  "description": "Mocword extension for coc.nvim",
+  "author": "Heyward Fann <fannheyward@gmail.com>",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "keywords": [
+    "coc.nvim"
+  ],
+  "engines": {
+    "coc": "^0.0.80"
+  },
+  "scripts": {
+    "lint": "eslint src --ext ts",
+    "clean": "rimraf lib",
+    "watch": "node esbuild.js --watch",
+    "build": "node esbuild.js",
+    "prepare": "node esbuild.js"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120,
+    "semi": true
+  },
+  "devDependencies": {
+    "@types/node": "12",
+    "coc.nvim": "^0.0.80",
+    "esbuild": "^0.14.24",
+    "typescript": "^4.6.2"
+  },
+  "activationEvents": [
+    "*"
+  ],
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "coc-mocword configuration",
+      "properties": {
+        "mocword.enable": {
+          "type": "boolean",
+          "default": true
+        },
+        "mocword.limit": {
+          "type": "number",
+          "default": 10,
+          "description": "Max candidates word number"
+        },
+        "mocword.filetypes": {
+          "type": "array",
+          "default": [
+            "text",
+            "help",
+            "markdown",
+            "gitcommit"
+          ],
+          "description": "Enable Mocword for these filetypes, `[\"*\"]` for all, and empty to disable"
+        }
+      }
+    }
+  }
+}
