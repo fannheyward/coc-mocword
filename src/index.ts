@@ -17,6 +17,7 @@ class MocwordProvider implements CompletionItemProvider {
   }
 
   get enable() {
+    if (!process.env.MOCWORD_DATA || !process.env.MOCWORD_DATA_PATH) return false;
     return this.cfg.get('enable') as boolean;
   }
 
