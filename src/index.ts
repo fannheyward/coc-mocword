@@ -17,7 +17,7 @@ class MocwordProvider implements CompletionItemProvider {
   }
 
   get enable() {
-    if (!process.env.MOCWORD_DATA || !process.env.MOCWORD_DATA_PATH) return false;
+    if (!(process.env.MOCWORD_DATA_PATH || process.env.MOCWORD_DATA)) return false;
     return this.cfg.get('enable') as boolean;
   }
 
@@ -41,10 +41,7 @@ class MocwordProvider implements CompletionItemProvider {
     if (!this.proc) return [];
 
     const line = await workspace.nvim.line;
-    const parts = line.split(/[.?!]/);
-    const last = parts[parts.length - 1];
-    if (!last) return [];
-    this.proc.stdin?.write(last + '\n');
+    this.proc.stdin?.write(line + '\n');
 
     return new Promise<CompletionItem[]>((resolve) => {
       const items: CompletionItem[] = [];
@@ -67,9 +64,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   const provider = new MocwordProvider();
   if (!provider.enable) return;
 
-  const letters = 'abcdefghijklmnopqrstuvwxyz';
-  const characters = (letters + letters.toUpperCase() + ' ').split('');
   context.subscriptions.push(
-    languages.registerCompletionItemProvider('mocword', 'Mocword', provider.filetypes, provider, characters)
+    languages.registerCompletionItemProvider('mocword', 'Mocword', provider.filetypes, provider, [' '])
   );
 }
